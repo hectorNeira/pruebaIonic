@@ -1,0 +1,96 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Pagar un servicio</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding> 
+
+  <ion-list center text-center>
+      <img width="80"  src="{{spontaneous?.Servicio.logo}}">
+      <h3>SERVICIO A PAGAR</h3>
+      <p ion-text>Selecciona la forma de pago que mejor te convenga</p>
+      <h6>{{spontaneous?.Servicio.nombre}}</h6>
+      <hr>
+      <form [formGroup]="spontaneousFormGroup" (ngSubmit)="onPayService(spontaneousFormGroup)">
+        <div *ngIf="spontaneous">
+          <div *ngFor="let field of spontaneous.DetalleDeReferencia; let ind = index;">
+              <ion-item>
+                  <ion-label stacked>{{field.nombre}}</ion-label>
+                  <ion-input formControlName="{{field.id}}" type="{{field.tipo}}"></ion-input>
+                  <button *ngIf="field.ayuda || field.ayuda_imagen" color="danger" type="button" round item-right ion-button icon-only (click)="presentHintModal(field)">
+                    <ion-icon style="font-size: x-large;" name="help-circle"></ion-icon>
+                  </button>
+                  <button *ngIf="field.codigo_barras == 1"  type="button" round item-right ion-button  icon-only (click)="scanBarcode(ind, spontaneousFormGroup)">
+                    <ion-icon name="camera"></ion-icon>
+                  </button>
+              </ion-item>
+              <ion-item *ngIf="!spontaneousFormGroup.controls[field.id].valid && spontaneousFormGroup.controls[field.id].touched">
+                <p color="danger" *ngIf="spontaneousFormGroup.controls[field.id].errors.required">Este campo es requerido</p>
+                <p color="danger" *ngIf="spontaneousFormGroup.controls[field.id].errors.maxlength">Máximo {{field.longitud_requerida}} caracteres</p>
+              </ion-item>
+          </div>
+          <ion-item>
+            <ion-label stacked>Selecciona la fecha de vencimiento</ion-label>
+            <ion-datetime displayFormat="DD MM YYYY" formControlName="dueDate" [(ngModel)]="date.month" doneText="Aceptar" cancelText="Cancelar" ></ion-datetime>
+          </ion-item>
+          <ion-item *ngIf="!spontaneousFormGroup.controls['dueDate'].valid && spontaneousFormGroup.controls['dueDate'].touched">
+                <p color="danger" *ngIf="spontaneousFormGroup.controls['dueDate'].errors.required">Este campo es requerido</p>
+                <p color="danger" *ngIf="spontaneousFormGroup.controls['dueDate'].errors.maxlength">Máximo {{field.longitud_requerida}} caracteres</p>
+          </ion-item>
+          <ion-item>
+                  <ion-label stacked>Monto</ion-label>
+                  <ion-input formControlName="amount" type="text" (ionChange)="commissionPayment(spontaneousFormGroup.controls['amount'].value,spontaneousFormGroup.controls['paymentMethods'].value)"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="!spontaneousFormGroup.controls['amount'].valid && spontaneousFormGroup.controls['amount'].touched">
+                <p color="danger" *ngIf="spontaneousFormGroup.controls['amount'].errors.required">Este campo es requerido</p>
+                <p color="danger" *ngIf="spontaneousFormGroup.controls['amount'].errors.maxlength">Máximo {{field.longitud_requerida}} caracteres</p>
+          </ion-item>
+          <ion-item>
+            <ion-label stacked >Método de pago</ion-label>
+            <ion-select formControlName="paymentMethods" (ionChange)="commissionPayment(spontaneousFormGroup.controls['amount'].value,spontaneousFormGroup.controls['paymentMethods'].value)">
+              <ion-option value="{{metodos.MetodoDePago.id}}" *ngFor="let metodos of spontaneous.MetodoPago">{{metodos.MetodoDePago.nombre}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item *ngIf="!spontaneousFormGroup.controls['paymentMethods'].valid && spontaneousFormGroup.controls['paymentMethods'].touched">
+                <p color="danger" *ngIf="spontaneousFormGroup.controls['paymentMethods'].errors.required">Este campo es requerido</p>
+                <p color="danger" *ngIf="spontaneousFormGroup.controls['paymentMethods'].errors.maxlength">Máximo {{field.longitud_requerida}} caracteres</p>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Cuenta bancaria</ion-label>
+            <ion-select formControlName="bankAccount" (ionChange)="commissionPayment(spontaneousFormGroup.controls['amount'].value,spontaneousFormGroup.controls['paymentMethods'].value)">
+              <ion-option value="{{bankAccount.CuentaBancaria.id}}" *ngFor="let bankAccount of banks">{{bankAccount.CuentaBancaria.nombre}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item *ngIf="!spontaneousFormGroup.controls['bankAccount'].valid && spontaneousFormGroup.controls['bankAccount'].touched">
+                <p color="danger" *ngIf="spontaneousFormGroup.controls['bankAccount'].errors.required">Este campo es requerido</p>
+                <p color="danger" *ngIf="spontaneousFormGroup.controls['bankAccount'].errors.maxlength">Máximo {{field.longitud_requerida}} caracteres</p>
+          </ion-item>
+        </div>
+        <br>
+        <br>
+          <div center text-center *ngFor="let commissionPayment of commission"> 
+            <p>MONTO ${{commissionPayment.monto}}</p>
+            <h6>COMISIÓN ${{commissionPayment.comision}}</h6>
+            <h3>MONTO TOTAL A PAGAR:</h3>
+            <h2 color="primary"> ${{commissionPayment.total}}</h2>
+            <button ion-button round color="primary" [disabled]="!spontaneousFormGroup.valid" type="submit" >PAGAR</button>
+          </div>
+      </form>
+  </ion-list>
+</ion-content>
+  <!--<ion-footer center text-center>
+    <ion-toolbar>
+            <h4>MONTO ${{commissionPayment.monto}}</h4>
+            <h5>COMISIÓN ${{commissionPayment.comision}}</h5>
+            <p>MONTO TOTAL A PAGAR ${{commissionPayment.total}}</p>
+            <button ion-button round color="primary" [disabled]="!spontaneousFormGroup.valid" type="submit" >PAGAR</button>
+      </form>
+  </ion-list>
+    </ion-toolbar>
+  </ion-footer>-->

@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar  color="primary">
+    <ion-title>{{action}} cuenta</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content text-center padding>
+
+  <img *ngIf="accounts" width="50%" src="{{accounts.Servicio?.logo}}">
+
+  <form [formGroup]="accountFormGroup" (ngSubmit)="onAddAccount(accountFormGroup)">
+    <ion-list no-lines *ngIf="accounts">
+      <div *ngFor="let field of accounts.CampoCuenta">
+          <ion-item>
+              <ion-label floating>{{field.nombre}}</ion-label>
+              <ion-input formControlName="{{field.id}}" type="{{field.tipo}}"></ion-input>
+              <button *ngIf="field.ayuda || field.ayuda_imagen" color="danger" type="button" round item-right ion-button icon-only (click)="presentHintModal(field)">
+                <ion-icon style="font-size: x-large;" name="help-circle"></ion-icon>
+              </button>
+          </ion-item>
+          <ion-item *ngIf="!accountFormGroup.controls[field.id].valid && accountFormGroup.controls[field.id].touched">
+            <p color="danger" *ngIf="accountFormGroup.controls[field.id].errors.required">Este campo es requerido</p>
+            <p color="danger" *ngIf="accountFormGroup.controls[field.id].errors.pattern">{{field.expresion_regular_msg}}</p>
+            <p color="danger" *ngIf="accountFormGroup.controls[field.id].errors.maxlength">Máximo {{field.longitud_requerida}} caracteres</p>
+          </ion-item>
+      </div>
+      <ion-item>
+              <ion-label floating>Nombre de servicio</ion-label>
+              <ion-input formControlName="nombre" type="text"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!accountFormGroup.controls['nombre'].valid && accountFormGroup.controls['nombre'].touched">
+            <p color="danger" *ngIf="accountFormGroup.controls['nombre'].errors.required">Este campo es requerido</p>
+            <p color="danger" *ngIf="accountFormGroup.controls['nombre'].errors.maxlength">Máximo {{field.longitud_requerida}} caracteres</p>
+      </ion-item>
+    </ion-list>
+    <button margin-bottom
+        ion-button
+        type="submit"
+        block
+        [disabled]="!accountFormGroup.valid">Guardar</button>
+  </form>
+</ion-content>

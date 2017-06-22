@@ -1,0 +1,62 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Pago de Adeudos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <p text-center color="light-grey">Verifica la información de tus adeudos para poder hacer el pago</p>
+  <form #payDebtsForm="ngForm" (ngSubmit)="onPayDebt(payDebtsForm)">
+    <ion-list>
+        <div *ngFor="let debt of debtsPayment?.Opciones[payDebtsForm.value.methodIndex]?.MetodoDePago.Adeudos">
+          <ion-item (click)="showDetails(debt)">
+              <ion-thumbnail item-left>
+                <img src="{{debt.Servicio.logo}}">
+              </ion-thumbnail>
+              <h2>{{debt.Cuenta.nombre}}</h2>
+              <!--<p>12/05/1988</p>-->
+              <h2 item-right> ${{ getSubtotal(debt) }}</h2>
+          </ion-item>
+          <ion-item *ngIf="debt.show">
+            <h2>Monto del recibo</h2>
+            <p item-right >{{debt.Adeudo.monto_del_recibo}}</p>
+          </ion-item>
+          <ion-item *ngIf="debt.show">
+            <h2>Comisión</h2>
+            <p item-right >{{debt.Adeudo.comision}}</p>
+          </ion-item>
+        </div>
+        <ion-item>
+          <ion-label stacked>Metodo de Pago</ion-label>
+          <ion-select [ngModel]="methodIdIndex" name="methodIndex">
+              <ion-option value="{{i}}" *ngFor="let method of debtsPayment?.Opciones; let i = index;">{{method.MetodoDePago.nombre}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item *ngIf="debtsPayment?.Opciones[payDebtsForm.value.methodIndex]?.MetodoDePago.id == 2 || debtsPayment?.Opciones[payDebtsForm.value.methodIndex]?.MetodoDePago.id == 4">
+          <ion-label stacked>Cuenta Bancaria</ion-label>
+          <ion-select [ngModel]="payment?.CuentaBancaria.id" name="bankId" >
+              <ion-option value="{{bank.CuentaBancaria.id}}" *ngFor="let bank of bankAccounts">{{bank.CuentaBancaria.nombre}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <br>
+        <br>
+        <ion-item>
+            <h2 color="light-grey">Subtotal de servicios</h2>
+            <h2 color="light-grey" item-right > ${{debtsPayment?.Opciones[payDebtsForm.value.methodIndex]?.MetodoDePago.Total[0].recibos}}</h2>
+        </ion-item>
+        <ion-item>
+            <h2 color="light-grey">Comisión total</h2>
+            <h2 color="light-grey" item-right > ${{debtsPayment?.Opciones[payDebtsForm.value.methodIndex]?.MetodoDePago.Total[0].comisiones}}</h2>
+        </ion-item>
+        <ion-item>
+            <h1>Total</h1>
+            <h1 item-right > ${{debtsPayment?.Opciones[payDebtsForm.value.methodIndex]?.MetodoDePago.Total[0].total}}</h1>
+        </ion-item>
+    </ion-list>
+    <button ion-button margin-top type="submit" block [disabled]="!payDebtsForm.valid">Pagar</button>
+  </form>
+</ion-content>

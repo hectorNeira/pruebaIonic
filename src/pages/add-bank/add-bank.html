@@ -1,0 +1,103 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Agregar cuenta bancaria</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form #addBankForm="ngForm" (ngSubmit)="onAddBank(addBankForm)">
+    <ion-list id="tipo_persona_id" no-lines radio-group name="tipo_persona_id" ngModel required>
+      <h5 color="primary">Selecciona si eres persona:</h5>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <ion-item>
+              <ion-label>Fisica</ion-label>
+              <ion-radio checked="true" value="1" (click)="setPerson(1)"></ion-radio>
+            </ion-item>
+          </ion-col>
+          <ion-col col-6>
+            <ion-item >
+              <ion-label>Moral</ion-label>
+              <ion-radio value="2" (click)="setPerson(2)"></ion-radio>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+    <ion-list>
+      <ion-item id="documento_oficial_tipo">
+        <ion-label stacked>Documento Oficial*</ion-label>
+        <ion-select ngModel name="documento_oficial_tipo" (ionChange)="setPlan($event)">
+          <ion-option selected value="IFE" >INE/IFE</ion-option>
+          <ion-option value="Pasaporte" >Pasaporte</ion-option>
+        </ion-select>
+      </ion-item>
+      <!--Campos de Pasaporte o INE-->
+        <ion-item id="documento_oficial">
+          <ion-label stacked>{{textoTipoDocumento}}</ion-label>
+          <ion-input
+            type="text"
+            ngModel
+            name="documento_oficial"
+            required></ion-input>
+        </ion-item>
+      <!--Fin Campos de Pasaporte o INE-->
+      <ion-item>
+        <ion-label stacked>Banco*</ion-label>
+        <ion-select ngModel name="banco_id" >
+            <ion-option value="{{bank.Banco.id}}" *ngFor="let bank of banks">{{bank.Banco.nombre}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item id="referencia">
+          <ion-label stacked>Tarjeta de debito(16)/CLABE(18 caracteres)</ion-label>
+          <ion-input
+            type="text"
+            ngModel
+            name="referencia"
+            required
+            maxlength="18"></ion-input>
+      </ion-item>
+      <ion-item id="titular_nombre">
+          <ion-label stacked>{{textoTipoPersonaNombre}}</ion-label>
+          <ion-input
+            type="text"
+            ngModel
+            name="titular_nombre"
+            required></ion-input>
+      </ion-item>
+      <ion-item id="titular_apellidos">
+          <ion-label stacked>{{textoTipoPersonaApellido}}</ion-label>
+          <ion-input
+            type="text"
+            ngModel
+            name="titular_apellidos"
+            required></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-row>
+      <ion-col>
+        <button margin-bottom
+          ion-button
+          type="submit"
+          [disabled]="!addBankForm.valid"
+          color="primary" 
+          block
+          inline>Guardar</button>
+      </ion-col>
+      <ion-col>
+        <button margin-bottom
+        ion-button
+        type="button"
+        color="danger"
+        block
+        navPop
+        >Cancelar</button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

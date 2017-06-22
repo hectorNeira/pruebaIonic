@@ -1,0 +1,21 @@
+<ion-header>
+
+  <ion-navbar  color="primary">
+    <ion-title>Preguntas frecuentes</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content> 
+  <ion-card *ngFor="let section of sections" >
+  <ion-card-header color="primary">
+    {{section.FaqsSeccion.nombre}}
+    <p>{{section.FaqsSeccion.descripcion}}</p>
+  </ion-card-header>
+  <hr>
+  <ion-card-content *ngFor="let question of section.Faq">
+    <h4>{{question.pregunta}}</h4>
+      <div [innerHtml]="question.respuesta"></div>
+  </ion-card-content>
+</ion-card>
+</ion-content>

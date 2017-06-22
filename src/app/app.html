@@ -1,0 +1,21 @@
+<ion-menu [content]="nav">
+    <ion-header>
+        <ion-toolbar color="dark">
+            <ion-title>Menu</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <button ion-item *ngFor="let option of menuList" (click)="onLoad(option.vista)">
+                <ion-icon color="primary"  name="{{option.icono}}" item-left></ion-icon>
+                    {{option.titulo}}
+            </button>
+            <button ion-item (click)="signout()">
+                <ion-icon  name="log-out" item-left></ion-icon>
+                    Cerrar Sesión
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav [root]="rootPage" #nav></ion-nav>

@@ -1,0 +1,18 @@
+<ion-header>
+
+  <ion-navbar  color="primary">
+    <ion-title>Servicios</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let option of services"  (click)="doPrompt(option.Servicio)">
+      <ion-thumbnail item-left>
+        <img src="{{option.Servicio.logo}}">
+      </ion-thumbnail>
+      <h2><strong>{{option.Servicio.nombre}}</strong></h2>
+    </ion-item>
+  </ion-list>
+</ion-content>

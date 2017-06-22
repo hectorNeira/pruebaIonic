@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Notificación</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+    <ion-item no-lines>
+      <h1 color="primary">{{details?.asunto}}</h1>
+      <p>{{details?.created}}</p>
+    </ion-item>
+    <ion-card-content center>
+      <h3>{{details?.mensaje}}</h3>
+    </ion-card-content>
+    <ion-col>
+      <div class="center">
+        <button ion-button icon-left round color="secondary" large center text-center (click)="goTo()">
+          <ion-icon name="ios-information-circle-outline"></ion-icon>
+          <div>Ir</div>
+        </button>
+      </div> 
+    </ion-col>
+</ion-content>
+<ion-footer>
+  <ion-col>
+    <button ion-button icon-left clear color="primary" (click)="marcarNotificacion()">
+      <ion-icon name="md-checkbox-outline"></ion-icon>
+      <div>Marcar como no leída</div>
+    </button>
+  </ion-col>
+    <ion-col>
+      <button ion-button icon-left clear color="danger" (click)="eliminarNotificacion()">
+        <ion-icon name="ios-trash-outline"></ion-icon>
+        <div>Borrar</div>
+      </button>
+    </ion-col>
+</ion-footer>

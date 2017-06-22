@@ -1,0 +1,40 @@
+<ion-header >
+  <ion-navbar color="primary">
+    <ion-title>Historial de Adeudo</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="list-avatar-page">
+  <ion-item color="primary">
+    <ion-label color="light">Selecciona una fecha</ion-label>
+    <ion-datetime displayFormat=" MM YYYY" [(ngModel)]="date.month" doneText="Aceptar" cancelText="Cancelar" (ionChange)="ionViewWillEnter()"></ion-datetime>
+  </ion-item>
+  <ion-list>
+    <ion-item-sliding *ngFor="let debtsHistory of debtsHistoryHtml">
+      <ion-item >
+        <h1 class="nombreServicio" >{{debtsHistory.Servicio.nombre}}</h1>
+        <h1 class="h2-right">${{debtsHistory.Adeudo.monto_del_recibo}}</h1>
+        
+        <h5 class="fechaVencimiento">{{debtsHistory.Adeudo.fecha_vencimiento}}</h5>
+        <h5>{{debtsHistory.Cuenta.nombre}}</h5>
+        <ion-note class="note" item-right>
+            Variacion: {{debtsHistory.Adeudo.variacion}}%
+        </ion-note>
+        <!--
+        <ion-note item-right class="icon-arrow">
+          <ion-icon ios="ios-options" md="md-options"></ion-icon>
+        </ion-note>
+        -->
+      </ion-item>
+      <ion-item-options >
+        <button ion-button color="primary" icon-left *ngIf="debtsHistory.Adeudo.filename" (click)="viewPdf(debtsHistory.Adeudo.filename)">
+          <ion-icon ios="ios-cloud-download" md="md-cloud-download"></ion-icon>
+          recibo
+        </button>
+        <button ion-button color="secondary" icon-left *ngIf="debtsHistory.Adeudo.pagado == true">
+          <ion-icon ios="ios-card" md="md-card"></ion-icon>
+          Pago
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

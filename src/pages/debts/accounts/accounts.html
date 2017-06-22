@@ -1,0 +1,91 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Inicio</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="cards-bg"  >
+  <button ion-button margin-bottom margin-top outline block [navPush]="step1BeginRequestPage">Empezar Credito</button>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content
+        pullingIcon="arrow-dropdown"
+        pullingText="Suelta para actualizar"
+        refreshingSpinner="circles"
+        refreshingText="Actualizando...">
+      </ion-refresher-content>
+    </ion-refresher>
+  <div *ngFor="let account of accountHtml">
+    <ion-card [ngClass]="setClasses(account)" (press)="pressEvent(account, $event)" (click)="cardClick(account)"> 
+      <ion-buttons end class="right-menu">
+          <button class="more-button" color="light-grey" outline no-lines ion-button icon-only (click)="presentPopover($event, account)">
+            <ion-icon name="more"></ion-icon>
+          </button>
+      </ion-buttons>
+      <ion-buttons end class="left-menu" *ngIf="showCheck && account.Adeudo && account.Adeudo[0].pagado === false && !this.estoy_vencido(account.Adeudo[0].fecha_vencimiento)">
+          <ion-checkbox [(ngModel)]="account.Adeudo[0].selected" (click)="checkboxClick(account)" > </ion-checkbox>
+      </ion-buttons>
+      <ion-card-content class="cards-content">
+        <div class="centering-div">
+          <img src="{{account.Servicio.logo}}"/>
+          <ion-card-title class="centered-content">
+            {{account.Cuenta.nombre}}
+          </ion-card-title>
+        </div>
+        <hr>
+        <div class="div-total-account" *ngFor="let debt of account.Adeudo">
+          <!-- <p *ngIf="debt.pagado === false && !estoy_vencido(debt.fecha_vencimiento)">Fecha limite de pago: {{debt.fecha_limite_pago}}</p> -->
+            <ion-row no-padding>
+              <ion-col *ngIf="debt.pagado == false">
+                <span *ngIf="debt.pagado == false && !(account.Adeudo[0].pagado === false && !estoy_vencido(account.Adeudo[0].fecha_vencimiento))" class="amount">${{debt.monto_del_recibo}} </span>
+                <span *ngIf="account.Adeudo[0].pagado === false && !estoy_vencido(account.Adeudo[0].fecha_vencimiento)" class="amount">${{debt.monto_del_recibo}} </span>   
+              </ion-col>
+              <ion-col *ngIf="account.Adeudo[0].pagado === false && !estoy_vencido(account.Adeudo[0].fecha_vencimiento)">
+                <span>{{debt.fecha_limite_pago}}</span>
+                <!-- <span color="success" class="amount">PAGAR </span> -->
+              </ion-col>
+              <ion-col *ngIf="debt.pagado == true">
+                <span class="amount">$0.00</span>
+              </ion-col>
+              <ion-col *ngIf="account.Adeudo && account.Adeudo[0].pagado === true ">
+                <span>{{debt.fecha_limite_pago}}</span>
+                <!-- <span color="light-grey">Pagado</span> -->
+              </ion-col>
+              <ion-col *ngIf="account.Adeudo && account.Adeudo[0].pagado === false && estoy_vencido(account.Adeudo[0].fecha_vencimiento)">
+                <span>{{debt.fecha_limite_pago}}</span>
+                <!-- <span color="light-grey">Vencido</span> -->
+              </ion-col>
+            </ion-row>
+        </div>
+        <div class="div-total-account">
+          <ion-row no-padding>
+            <ion-col *ngIf="(!account.Adeudo && !isOnReview(account))">
+              </ion-col>
+              <ion-col *ngIf="(!account.Adeudo && !isOnReview(account) && account.Estatus.id != 2)">
+                <span color="light-grey">Verificando</span>
+              </ion-col>
+              <ion-col *ngIf="account.Estatus.id == 2"> <!-- Inactiva -->
+                <span color="light-grey">{{account.Estatus.nombre}}</span>
+              </ion-col>
+              <ion-col *ngIf="account.Estatus.id == 5"> <!-- editar datos -->
+              </ion-col>
+              <ion-col *ngIf="account.Estatus.id == 5">
+                  <span color="warning" class="amount"> {{account.Estatus.nombre}}</span>
+              </ion-col>
+          </ion-row>
+        </div>
+      </ion-card-content>
+      <ion-row no-padding>
+    </ion-row>
+    </ion-card>
+  </div>
+
+  <ion-fab bottom center *ngIf="showCheck">
+    <button ion-fab (click)="gotoPay()"><ion-icon name="logo-usd"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>

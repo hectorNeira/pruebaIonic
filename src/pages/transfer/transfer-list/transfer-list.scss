@@ -1,0 +1,61 @@
+page-transfer-list {
+
+    .right-icon{
+        position: absolute;
+        right: -2%;
+        top: -17%;
+        font-size: 200%;
+    }
+    .right-align{
+        text-align: right;
+    }
+    .flip-horizontal{
+        transform: scale(-1, 1);
+    }
+    .monto{
+        font-size: large;
+        font-weight: 500;
+    }
+    .no-top-padding{
+        padding-top: 0;
+    }
+    .no-bottom-padding{
+        padding-bottom: 0;
+    }
+    .pending-transfer{
+        color: rgba( color($colors, warning), 1 )
+    }
+    .inProcess-transfer{
+        color: rgba( color($colors, primary), 1 )
+    }
+    .canceled-transfer{
+        color: rgba( color($colors, light-grey), 1 )
+    }
+    .rejected-transfer{
+        color: rgba( color($colors, danger), 1 )
+    }
+    .expired-transfer{
+        color: rgba( color($colors, danger), 1 )
+    }
+    .collected-transfer{
+        color: rgba( color($colors, success), 1 )
+    }
+    .filters{
+       background-color: #25a7df ;
+       color: white;
+   }
+    .filters-span{
+        margin-top: 3%;
+        position: absolute;
+        right: 57%;
+   }
+
+    .filters-iondatetime{
+        position: relative;
+        right: -42%;
+        margin-top: 0% !important;
+   }
+}
+
+
+

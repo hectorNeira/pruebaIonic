@@ -1,0 +1,38 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Registro de datos bancarios</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <form #addBankDataForm="ngForm" (ngSubmit)="onAddBankData(addBankDataForm)">
+      <ion-item>
+        <ion-label stacked >Nombre del titular:</ion-label>
+        <ion-input required ngModel name="titular_nombre"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked >Apellidos del titular:</ion-label>
+        <ion-input required ngModel name="titular_apellidos"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Banco*</ion-label>
+        <ion-select ngModel name="banco_id" >
+            <ion-option value="{{bank.Banco.id}}" *ngFor="let bank of banks">{{bank.Banco.nombre}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item id="referencia">
+          <ion-label stacked>Tarjeta de debito o crédito (16)/CLABE(18 caracteres)</ion-label>
+          <ion-input type="text" ngModel name="referencia" required maxlength="18"></ion-input>
+      </ion-item>
+      <br>
+      <br>
+      <div center text-center>
+        <button ion-button color primary round type="submit" [disabled]="!addBankDataForm.valid">Guardar</button>
+      </div>  
+    </form>
+  </ion-list>
+</ion-content>

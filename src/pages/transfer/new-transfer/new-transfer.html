@@ -1,0 +1,56 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-buttons right panding>
+      <button ion-button icon-left (click)="contact()">
+        <ion-icon name="contacts" color="light" round></ion-icon>
+        Contactos
+      </button>
+  </ion-buttons>
+    <ion-title>Nuevo envio</ion-title>
+  </ion-navbar>
+  
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <form #newSendForm="ngForm" (ngSubmit)="onNewSend(newSendForm)">
+      <ion-item id="nombre_destinatario">
+        <ion-icon name="person" item-left color="primary"></ion-icon>
+        <ion-label stacked >Nombre:</ion-label>
+        <ion-input required [(ngModel)]="nombre" name="nombre_destinatario" ></ion-input>     
+      </ion-item>
+      <ion-item id="celular_destinatario">
+        <ion-icon name="phone-portrait" item-left color="primary"></ion-icon>
+        <ion-label stacked >Numero de celular (10 digitos)</ion-label>
+        <ion-input required [(ngModel)]="numero" name="celular_destinatario" maxlength="10" ></ion-input>       
+      </ion-item>
+      <ion-item id="referencia_externa">
+        <ion-icon name="card" item-left color="primary"></ion-icon>
+        <ion-label stacked >Desde la cuenta:</ion-label>
+        <ion-select [ngModel]="referencia_externa" name="referencia_externa">
+          <ion-option value="23">4910897043456013 prueba</ion-option>
+          <ion-option value="34">1221432345354546 prueba</ion-option>
+        </ion-select>
+      </ion-item>
+      <br>
+      <br>
+      <ion-item id="monto">
+        <ion-label floating >¿Cuanto deseas enviar?<span><p color="light-grey">Monto maximo $10,000</p></span></ion-label>
+        <ion-input required ngModel name="monto" type="number"></ion-input>       
+      </ion-item>
+      <ion-item id="descripcion">
+        <ion-label floating >Mensaje</ion-label>
+        <ion-textarea required maxlength="100" ngModel name="descripcion"></ion-textarea>
+      </ion-item>
+      <br>
+      <br>
+      <br>
+      <br>      
+        <button ion-button block color="primary" type="submit" [disabled]="!newSendForm.valid">Enviar</button>
+        <button ion-button block clear type="button" color="light-grey" (click)="cancelTransfer()">Cancelar envío</button>
+    </form>  
+  </ion-list>
+</ion-content>
+
